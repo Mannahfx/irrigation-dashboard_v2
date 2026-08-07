@@ -1,0 +1,20 @@
+.banner {
+  background: #2a1505;
+  border-bottom: 1px solid #92400e;
+  padding: 12px 24px;
+  display: flex; align-items: flex-start; gap: 12px;
+}
+
+.icon { font-size: 18px; color: var(--amber); flex-shrink: 0; margin-top: 1px; }
+
+.content { flex: 1; }
+.msg  { font-size: 13px; color: var(--amber); font-weight: 500; line-height: 1.4; }
+.meta { font-size: 11px; color: #92400e; margin-top: 3px; font-family: var(--mono); }
+
+.dismiss {
+  background: transparent; border: none;
+  color: #92400e; font-size: 16px;
+  padding: 2px 6px; border-radius: 4px;
+  transition: color .15s; flex-shrink: 0;
+}
+.dismiss:hover { color: var(--amber); }

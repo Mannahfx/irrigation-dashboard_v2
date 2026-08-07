@@ -1,0 +1,57 @@
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  grid-column: span 2;
+}
+
+.title { font-size: 14px; font-weight: 600; color: var(--green); margin-bottom: 12px; }
+
+.note {
+  font-size: 12px; color: var(--muted);
+  margin-bottom: 16px;
+}
+.mono { font-family: var(--mono); color: var(--text); }
+
+.fields {
+  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;
+}
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+
+.fieldLabel {
+  font-size: 10px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .4px;
+}
+
+.input {
+  padding: 8px 10px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text);
+  font-family: var(--mono); font-size: 15px; font-weight: 600;
+  text-align: center; outline: none;
+}
+.input:focus { border-color: var(--green); }
+
+.btnRow { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.nowBtn {
+  padding: 9px 16px; border-radius: 8px;
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--muted); font-size: 13px;
+  transition: all .15s;
+}
+.nowBtn:hover { color: var(--text); }
+
+.sendBtn {
+  padding: 9px 20px; border-radius: 8px;
+  background: var(--green-dim); border: 1px solid var(--green);
+  color: var(--green); font-size: 13px; font-weight: 600;
+  transition: all .15s;
+}
+.sendBtn:hover:not(:disabled) { background: var(--green); color: #fff; }
+.sendBtn:disabled { opacity: .4; cursor: not-allowed; }
+.sendBtnDone { background: var(--green); color: #fff; }
+
+@media (max-width: 768px) { .card { grid-column: span 1; } }

@@ -1,0 +1,441 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+}
+
+/* Animated background orbs */
+.orb1, .orb2, .orb3 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.orb1 {
+  width: 400px;
+  height: 400px;
+  background: var(--green);
+  top: -100px;
+  right: -100px;
+  animation: float1 12s ease-in-out infinite;
+}
+
+.orb2 {
+  width: 300px;
+  height: 300px;
+  background: var(--blue);
+  bottom: -80px;
+  left: -80px;
+  animation: float2 15s ease-in-out infinite;
+}
+
+.orb3 {
+  width: 200px;
+  height: 200px;
+  background: var(--amber);
+  top: 50%;
+  left: 50%;
+  animation: float3 10s ease-in-out infinite;
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-60px, 40px) scale(1.1); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(50px, -30px) scale(1.15); }
+}
+
+@keyframes float3 {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-30%, -60%) scale(0.9); }
+}
+
+/* Glassmorphism card */
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  background: rgba(10, 22, 40, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 40px 32px 32px;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 122, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  animation: cardIn 0.5s ease-out;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Brand area */
+.brandArea {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.logo {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--green), #ff9d40);
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 16px rgba(255, 122, 0, 0.3);
+}
+
+.brandName {
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--text);
+  letter-spacing: 2px;
+}
+
+.brandSub {
+  font-family: var(--font);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+/* Title & subtitle */
+.title {
+  font-family: var(--font);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  margin: 0 0 4px;
+}
+
+.subtitle {
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  margin: 0 0 24px;
+}
+
+/* Alerts */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.4;
+  margin-bottom: 16px;
+  animation: alertIn 0.3s ease;
+}
+
+@keyframes alertIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.alertError {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.alertSuccess {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #86efac;
+}
+
+.alertIcon {
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+.input {
+  font-family: var(--font);
+  font-size: 14px;
+  padding: 12px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input::placeholder {
+  color: var(--muted);
+  opacity: 0.5;
+}
+
+.input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px var(--green-glow);
+}
+
+.passwordWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInput {
+  width: 100%;
+  padding-right: 40px; /* Make room for the toggle button */
+}
+
+.visibilityToggle {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+  opacity: 0.7;
+}
+
+.visibilityToggle:hover {
+  opacity: 1;
+}
+
+/* Admin-specific input highlight */
+.inputAdmin {
+  border-color: rgba(139, 92, 246, 0.4);
+  background: rgba(139, 92, 246, 0.06);
+}
+
+.inputAdmin:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+}
+
+.fieldHint {
+  font-family: var(--font);
+  font-size: 11px;
+  color: var(--muted);
+  opacity: 0.7;
+  padding-left: 2px;
+}
+
+/* ─── Account Type Toggle ─── */
+.typeToggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.typeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 8px;
+  background: var(--surface2);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.typeBtn:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text);
+}
+
+.typeBtnActive {
+  border-color: var(--green);
+  background: rgba(255, 122, 0, 0.08);
+  color: var(--green);
+  box-shadow: 0 0 0 1px rgba(255, 122, 0, 0.15), inset 0 1px 0 rgba(255, 122, 0, 0.06);
+}
+
+.typeBtnActiveAdmin {
+  border-color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.08);
+  color: #a78bfa;
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(139, 92, 246, 0.06);
+}
+
+.typeIcon {
+  font-size: 16px;
+}
+
+/* Submit button */
+.submitBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 13px;
+  background: linear-gradient(135deg, var(--green), #ff9d40);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.submitBtnAdmin {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa);
+}
+
+.submitBtn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.submitBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnSpinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Links */
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.linkBtn {
+  background: none;
+  border: none;
+  color: var(--green);
+  font-family: var(--font);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 2px 0;
+  transition: color 0.2s;
+}
+
+.linkBtn:hover {
+  color: #ff9d40;
+  text-decoration: underline;
+}
+
+.linkDot {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* Footer */
+.footer {
+  position: relative;
+  z-index: 1;
+  margin-top: 32px;
+  font-family: var(--font);
+  font-size: 12px;
+  color: var(--muted);
+  opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .card {
+    padding: 32px 20px 24px;
+    border-radius: 16px;
+  }
+
+  .logo {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+
+  .brandName {
+    font-size: 18px;
+  }
+
+  .typeBtn {
+    font-size: 12px;
+    padding: 10px 6px;
+    gap: 5px;
+  }
+}

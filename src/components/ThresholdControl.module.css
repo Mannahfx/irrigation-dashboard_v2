@@ -1,0 +1,48 @@
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+}
+
+.title { font-size: 14px; font-weight: 600; color: var(--green); margin-bottom: 14px; }
+
+.current { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+.currentVal { color: var(--text); font-family: var(--mono); margin-left: 4px; }
+
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 12px; }
+
+.field {}
+.fieldLabel { display: block; font-size: 11px; font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .4px; }
+
+.inputWrap { display: flex; align-items: center; gap: 8px; }
+
+.input {
+  width: 80px; padding: 10px 12px;
+  background: var(--bg); border: 1px solid;
+  border-radius: 8px; color: var(--text);
+  font-size: 18px; font-weight: 700;
+  font-family: var(--mono);
+  text-align: center; outline: none;
+}
+.input:focus { border-color: var(--green); }
+
+.unit { color: var(--muted); font-size: 14px; }
+
+.err { color: var(--red); font-size: 12px; margin-bottom: 10px; }
+
+.holdZone {
+  font-size: 12px; color: var(--muted);
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 12px; margin-bottom: 14px;
+}
+
+.applyBtn {
+  width: 100%; padding: 11px;
+  background: var(--green-dim); border: 1px solid var(--green);
+  border-radius: 8px; color: var(--green);
+  font-size: 13px; font-weight: 600;
+  transition: all .15s;
+}
+.applyBtn:hover:not(:disabled) { background: var(--green); color: #fff; }
+.applyBtn:disabled { opacity: .4; cursor: not-allowed; }

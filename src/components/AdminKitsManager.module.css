@@ -1,0 +1,200 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header h2 {
+  margin: 0 0 8px 0;
+  color: var(--text);
+  font-family: var(--font-display);
+}
+
+.header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.addForm {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.addForm h3 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.formGroup {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.input {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-family: var(--font);
+  font-size: 14px;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--green);
+}
+
+.btnPrimary {
+  background: var(--green);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+}
+
+.error {
+  color: #ef4444;
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.success {
+  color: #22c55e;
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+.list {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.list h3 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.empty {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 14px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th {
+  text-align: left;
+  padding: 12px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  font-weight: 500;
+}
+
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.kitId {
+  font-family: monospace;
+  background: var(--bg);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badgeOnline {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+}
+
+.badgeOffline {
+  background: rgba(156, 163, 175, 0.15);
+  color: #9ca3af;
+}
+
+.select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 100%;
+  max-width: 250px;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--green);
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btnMonitor {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnMonitor:hover {
+  background: rgba(34, 197, 94, 0.2);
+}
+
+.btnDelete {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnDelete:hover {
+  background: rgba(239, 68, 68, 0.2);
+}

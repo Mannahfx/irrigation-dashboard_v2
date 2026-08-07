@@ -1,0 +1,153 @@
+.page {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.pageHeader {
+  margin-bottom: 24px;
+}
+
+.pageTitle {
+  font-family: var(--font);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.pageSub {
+  font-family: var(--font);
+  font-size: 13px;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.tabBtn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tabBtn:hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.tabActive {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--green);
+}
+
+/* Stats grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.statCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.statCard:hover {
+  border-color: var(--green);
+}
+
+.statValue {
+  font-family: var(--font);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--green);
+  line-height: 1;
+}
+
+.statSmall {
+  font-size: 20px;
+  font-family: var(--mono);
+}
+
+.statLabel {
+  font-family: var(--font);
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Main grid */
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tableArea, .feedArea {
+  min-width: 0;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+  font-family: var(--font);
+  font-size: 14px;
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 14px;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .statValue {
+    font-size: 24px;
+  }
+
+  .pageTitle {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .statsGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .statCard {
+    padding: 14px;
+  }
+}
