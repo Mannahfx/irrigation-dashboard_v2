@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { logActivity } from '../lib/activityLogger'
 import styles from './PumpControl.module.css'
 
-const MODES = ['MANUAL', 'AUTO', 'TIMER']
+const MODES = ['MANUAL', 'AUTO']
 
 export default function PumpControl({ kitId, relayState, mode, publish, connected, user, profile }) {
   const isManual = mode === 'MANUAL'

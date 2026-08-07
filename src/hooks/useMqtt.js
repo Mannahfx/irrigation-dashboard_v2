@@ -25,7 +25,7 @@ export default function useMqtt(kitId) {
   const [mode,        setMode]        = useState('MANUAL')
   const [threshLow,   setThreshLow]   = useState('20')
   const [threshHigh,  setThreshHigh]  = useState('60')
-  const [timersJson,  setTimersJson]  = useState(null)
+
   const [currentTime, setCurrentTime] = useState(null)
   const [logs,        setLogs]        = useState([])
   const [alerts,      setAlerts]      = useState([])
@@ -53,7 +53,7 @@ export default function useMqtt(kitId) {
       `${base}/time/current`,
       `${base}/threshold/low`,
       `${base}/threshold/high`,
-      `${base}/timers/state`,
+
       `${base}/alert`,
       `${base}/log`,
       `${base}/feedback`,
@@ -119,9 +119,7 @@ export default function useMqtt(kitId) {
         case `${base}/threshold/high`:
           setThreshHigh(msg)
           break
-        case `${base}/timers/state`:
-          setTimersJson(msg)
-          break
+
         case `${base}/log`:
           setLogs(l => [{ ts, msg }, ...l.slice(0, 99)])
           
@@ -173,7 +171,7 @@ export default function useMqtt(kitId) {
 
   return {
     connected, sensors, relayState, mode,
-    threshLow, threshHigh, timersJson, currentTime,
+    threshLow, threshHigh, currentTime,
     logs, alerts, feedback,
     tempHistory, moistHistory, espStatus,
     publish,
