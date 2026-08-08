@@ -12,7 +12,7 @@ import AlertBanner from '../components/AlertBanner'
 import SensorChart from '../components/SensorChart'
 import styles from './DashboardPage.module.css'
 
-const TABS = ['Monitor', 'Control', 'Timers', 'Log']
+const TABS = ['Monitor', 'Control', 'Log']
 
 export default function DashboardPage() {
   const { user, profile } = useAuth()
@@ -179,17 +179,6 @@ export default function DashboardPage() {
               profile={profile}
             />
           </div>
-        )}
-
-        {tab === 'Timers' && (
-          <TimerSlots
-            kitId={selectedKitId}
-            timersJson={mqtt.timersJson}
-            publish={mqtt.publish}
-            connected={mqtt.connected}
-            user={user}
-            profile={profile}
-          />
         )}
 
         {tab === 'Log' && (
