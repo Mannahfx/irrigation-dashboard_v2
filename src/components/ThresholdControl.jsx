@@ -88,8 +88,6 @@ export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTemp
         </div>
       </div>
 
-      </div>
-
       <div className={styles.title} style={{ marginTop: '20px' }}>Cooling Fan Settings</div>
       <div className={styles.current}>
         Current Temp: <span className={styles.currentVal}>ON: {fanTempOn}°C | OFF: {fanTempOff}°C</span>
