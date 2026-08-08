@@ -25,11 +25,7 @@ export default function useMqtt(kitId) {
   const [mode,        setMode]        = useState('MANUAL')
   const [threshLow,   setThreshLow]   = useState('20')
   const [threshHigh,  setThreshHigh]  = useState('60')
-  const [fanTempOn,   setFanTempOn]   = useState('32')
-  const [fanTempOff,  setFanTempOff]  = useState('28')
-  const [fanHumOn,    setFanHumOn]    = useState('80')
-  const [fanHumOff,   setFanHumOff]   = useState('70')
-
+  const [timersJson,  setTimersJson]  = useState(null)
   const [currentTime, setCurrentTime] = useState(null)
   const [logs,        setLogs]        = useState([])
   const [alerts,      setAlerts]      = useState([])
@@ -57,11 +53,7 @@ export default function useMqtt(kitId) {
       `${base}/time/current`,
       `${base}/threshold/low`,
       `${base}/threshold/high`,
-      `${base}/threshold/temp_on`,
-      `${base}/threshold/temp_off`,
-      `${base}/threshold/hum_on`,
-      `${base}/threshold/hum_off`,
-
+      `${base}/timers/state`,
       `${base}/alert`,
       `${base}/log`,
       `${base}/feedback`,
@@ -127,19 +119,9 @@ export default function useMqtt(kitId) {
         case `${base}/threshold/high`:
           setThreshHigh(msg)
           break
-        case `${base}/threshold/temp_on`:
-          setFanTempOn(msg)
+        case `${base}/timers/state`:
+          setTimersJson(msg)
           break
-        case `${base}/threshold/temp_off`:
-          setFanTempOff(msg)
-          break
-        case `${base}/threshold/hum_on`:
-          setFanHumOn(msg)
-          break
-        case `${base}/threshold/hum_off`:
-          setFanHumOff(msg)
-          break
-
         case `${base}/log`:
           setLogs(l => [{ ts, msg }, ...l.slice(0, 99)])
           
@@ -191,7 +173,7 @@ export default function useMqtt(kitId) {
 
   return {
     connected, sensors, relayState, mode,
-    threshLow, threshHigh, fanTempOn, fanTempOff, fanHumOn, fanHumOff, currentTime,
+    threshLow, threshHigh, timersJson, currentTime,
     logs, alerts, feedback,
     tempHistory, moistHistory, espStatus,
     publish,

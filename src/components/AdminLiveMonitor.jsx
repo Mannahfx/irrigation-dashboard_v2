@@ -3,13 +3,14 @@ import useMqtt from '../hooks/useMqtt'
 import SensorCards from '../components/SensorCards'
 import PumpControl from '../components/PumpControl'
 import ThresholdControl from '../components/ThresholdControl'
+import TimerSlots from '../components/TimerSlots'
 import RtcSetter from '../components/RtcSetter'
 import EventLog from '../components/EventLog'
 import AlertBanner from '../components/AlertBanner'
 import SensorChart from '../components/SensorChart'
 import styles from './AdminLiveMonitor.module.css'
 
-const TABS = ['Monitor', 'Control', 'Log']
+const TABS = ['Monitor', 'Control', 'Timers', 'Log']
 
 export default function AdminLiveMonitor({ kit, onBack }) {
   const mqtt = useMqtt(kit.kit_id)
@@ -95,7 +96,16 @@ export default function AdminLiveMonitor({ kit, onBack }) {
           </div>
         )}
 
-
+        {tab === 'Timers' && (
+          <TimerSlots
+            kitId={kit.kit_id}
+            timersJson={mqtt.timersJson}
+            publish={mqtt.publish}
+            connected={mqtt.connected}
+            user={adminUser}
+            profile={adminProfile}
+          />
+        )}
 
         {tab === 'Log' && (
           <EventLog logs={mqtt.logs} />
