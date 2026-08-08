@@ -27,8 +27,8 @@ export default function PumpControl({ kitId, relayState, mode, publish, connecte
 
     publish(`${kitId}/relay/state`, cmd)
     if (user) {
-      const action = cmd === 'ON' ? 'PUMP_ON' : cmd === 'OFF' ? 'PUMP_OFF' : 'PUMP_TOGGLE'
-      logActivity(user.id, user.email, action, `Pump ${cmd}`, profile?.device_id || kitId)
+      const action = cmd === 'ON' ? 'VALVE_ON' : cmd === 'OFF' ? 'VALVE_OFF' : 'VALVE_TOGGLE'
+      logActivity(user.id, user.email, action, `Valve ${cmd}`, profile?.device_id || kitId)
     }
   }
 
@@ -42,7 +42,7 @@ export default function PumpControl({ kitId, relayState, mode, publish, connecte
 
   return (
     <div className={styles.card}>
-      <div className={styles.title}>Pump & Mode Control</div>
+      <div className={styles.title}>Irrigation & Mode Control</div>
 
       {/* MODE SELECTOR */}
       <div className={styles.section}>
@@ -61,9 +61,9 @@ export default function PumpControl({ kitId, relayState, mode, publish, connecte
         </div>
       </div>
 
-      {/* PUMP STATE */}
+      {/* VALVE STATE */}
       <div className={styles.section}>
-        <div className={styles.label}>Water Pump</div>
+        <div className={styles.label}>Irrigation Valve</div>
         <div className={styles.pumpRow}>
           <div className={`${styles.pumpIndicator} ${relayState === 'ON' ? styles.pumpOn : styles.pumpOff}`}>
             <span className={styles.pumpDot} />
@@ -71,25 +71,23 @@ export default function PumpControl({ kitId, relayState, mode, publish, connecte
           </div>
           {!isManual && (
             <div className={styles.autoNote}>
-              Pump controlled by {mode} mode
+              Valve controlled by {mode} mode
             </div>
           )}
         </div>
 
-        {isManual && (
-          <div className={styles.switchWrapper}>
-            <span className={styles.switchLabel}>Pump Power</span>
-            <label className={`${styles.switch} ${!connected ? styles.disabled : ''}`}>
-              <input
-                type="checkbox"
-                checked={relayState === 'ON'}
-                onChange={(e) => controlPump(e.target.checked ? 'ON' : 'OFF')}
-                disabled={!connected}
-              />
-              <span className={styles.slider}></span>
-            </label>
-          </div>
-        )}
+        <div className={styles.switchWrapper}>
+          <span className={styles.switchLabel}>Valve Power</span>
+          <label className={`${styles.switch} ${(!connected || !isManual) ? styles.disabled : ''}`}>
+            <input
+              type="checkbox"
+              checked={relayState === 'ON'}
+              onChange={(e) => controlPump(e.target.checked ? 'ON' : 'OFF')}
+              disabled={!connected || !isManual}
+            />
+            <span className={styles.slider}></span>
+          </label>
+        </div>
       </div>
 
       {/* FLOW RESET */}

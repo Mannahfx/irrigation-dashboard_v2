@@ -161,6 +161,10 @@ export default function DashboardPage() {
               kitId={selectedKitId}
               threshLow={mqtt.threshLow}
               threshHigh={mqtt.threshHigh}
+              fanTempOn={mqtt.fanTempOn}
+              fanTempOff={mqtt.fanTempOff}
+              fanHumOn={mqtt.fanHumOn}
+              fanHumOff={mqtt.fanHumOff}
               publish={mqtt.publish}
               connected={mqtt.connected}
               user={user}
