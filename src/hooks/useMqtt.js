@@ -20,8 +20,11 @@ export default function useMqtt(kitId) {
     moisture:    null,
     flowrate:    null,
     totalflow:   null,
+    tankpump:    null,
   })
   const [relayState,  setRelayState]  = useState('OFF')
+  const [pumpState,   setPumpState]   = useState('OFF')
+  const [fanState,    setFanState]    = useState('OFF')
   const [mode,        setMode]        = useState('MANUAL')
   const [threshLow,   setThreshLow]   = useState('20')
   const [threshHigh,  setThreshHigh]  = useState('60')
@@ -53,6 +56,8 @@ export default function useMqtt(kitId) {
       `${base}/sensor/flowrate`,
       `${base}/sensor/totalflow`,
       `${base}/relay/state`,
+      `${base}/relay/pump`,
+      `${base}/relay/fan`,
       `${base}/mode/state`,
       `${base}/time/current`,
       `${base}/threshold/low`,
@@ -114,6 +119,12 @@ export default function useMqtt(kitId) {
           break
         case `${base}/relay/state`:
           setRelayState(msg)
+          break
+        case `${base}/relay/pump`:
+          setPumpState(msg)
+          break
+        case `${base}/relay/fan`:
+          setFanState(msg)
           break
         case `${base}/mode/state`:
           setMode(msg)
@@ -192,7 +203,7 @@ export default function useMqtt(kitId) {
   }, [])
 
   return {
-    connected, sensors, relayState, mode,
+    connected, sensors, relayState, pumpState, fanState, mode,
     threshLow, threshHigh, fanTempOn, fanTempOff, fanHumOn, fanHumOff, timersJson, currentTime,
     logs, alerts, feedback,
     tempHistory, moistHistory, espStatus,

@@ -4,7 +4,7 @@ import styles from './PumpControl.module.css'
 
 const MODES = ['MANUAL', 'AUTO']
 
-export default function PumpControl({ kitId, relayState, mode, publish, connected, user, profile }) {
+export default function PumpControl({ kitId, relayState, pumpState, fanState, mode, publish, connected, user, profile }) {
   const isManual = mode === 'MANUAL'
 
   function changeMode(m) {
@@ -29,6 +29,32 @@ export default function PumpControl({ kitId, relayState, mode, publish, connecte
     if (user) {
       const action = cmd === 'ON' ? 'VALVE_ON' : cmd === 'OFF' ? 'VALVE_OFF' : 'VALVE_TOGGLE'
       logActivity(user.id, user.email, action, `Valve ${cmd}`, profile?.device_id || kitId)
+    }
+  }
+
+  function controlTankPump(cmd) {
+    if (!kitId) return
+    const now = Date.now()
+    if (now - lastToggleRef.current < 500) return
+    lastToggleRef.current = now
+
+    publish(`${kitId}/relay/pump`, cmd)
+    if (user) {
+      const action = cmd === 'ON' ? 'PUMP_ON' : cmd === 'OFF' ? 'PUMP_OFF' : 'PUMP_TOGGLE'
+      logActivity(user.id, user.email, action, `Tank Pump ${cmd}`, profile?.device_id || kitId)
+    }
+  }
+
+  function controlFan(cmd) {
+    if (!kitId) return
+    const now = Date.now()
+    if (now - lastToggleRef.current < 500) return
+    lastToggleRef.current = now
+
+    publish(`${kitId}/relay/fan`, cmd)
+    if (user) {
+      const action = cmd === 'ON' ? 'FAN_ON' : cmd === 'OFF' ? 'FAN_OFF' : 'FAN_TOGGLE'
+      logActivity(user.id, user.email, action, `Cooling Fan ${cmd}`, profile?.device_id || kitId)
     }
   }
 
@@ -83,6 +109,64 @@ export default function PumpControl({ kitId, relayState, mode, publish, connecte
               type="checkbox"
               checked={relayState === 'ON'}
               onChange={(e) => controlPump(e.target.checked ? 'ON' : 'OFF')}
+              disabled={!connected || !isManual}
+            />
+            <span className={styles.slider}></span>
+          </label>
+        </div>
+      </div>
+
+      {/* TANK PUMP STATE */}
+      <div className={styles.section}>
+        <div className={styles.label}>Tank Filling Pump</div>
+        <div className={styles.pumpRow}>
+          <div className={`${styles.pumpIndicator} ${pumpState === 'ON' ? styles.pumpOn : styles.pumpOff}`}>
+            <span className={styles.pumpDot} />
+            {pumpState}
+          </div>
+          {!isManual && (
+            <div className={styles.autoNote}>
+              Pump controlled by {mode} mode
+            </div>
+          )}
+        </div>
+
+        <div className={styles.switchWrapper}>
+          <span className={styles.switchLabel}>Pump Power</span>
+          <label className={`${styles.switch} ${(!connected || !isManual) ? styles.disabled : ''}`}>
+            <input
+              type="checkbox"
+              checked={pumpState === 'ON'}
+              onChange={(e) => controlTankPump(e.target.checked ? 'ON' : 'OFF')}
+              disabled={!connected || !isManual}
+            />
+            <span className={styles.slider}></span>
+          </label>
+        </div>
+      </div>
+
+      {/* FAN STATE */}
+      <div className={styles.section}>
+        <div className={styles.label}>Cooling Fan</div>
+        <div className={styles.pumpRow}>
+          <div className={`${styles.pumpIndicator} ${fanState === 'ON' ? styles.pumpOn : styles.pumpOff}`}>
+            <span className={styles.pumpDot} />
+            {fanState}
+          </div>
+          {!isManual && (
+            <div className={styles.autoNote}>
+              Fan controlled by {mode} mode
+            </div>
+          )}
+        </div>
+
+        <div className={styles.switchWrapper}>
+          <span className={styles.switchLabel}>Fan Power</span>
+          <label className={`${styles.switch} ${(!connected || !isManual) ? styles.disabled : ''}`}>
+            <input
+              type="checkbox"
+              checked={fanState === 'ON'}
+              onChange={(e) => controlFan(e.target.checked ? 'ON' : 'OFF')}
               disabled={!connected || !isManual}
             />
             <span className={styles.slider}></span>
