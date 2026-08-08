@@ -57,7 +57,7 @@ export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTemp
       <div className={styles.row}>
         <div className={styles.field}>
           <label className={styles.fieldLabel} style={{ color: 'var(--red)' }}>
-            Pump ON at or below
+            Valve ON at or below
           </label>
           <div className={styles.inputWrap}>
             <input
@@ -73,7 +73,7 @@ export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTemp
 
         <div className={styles.field}>
           <label className={styles.fieldLabel} style={{ color: 'var(--green)' }}>
-            Pump OFF at or above
+            Valve OFF at or above
           </label>
           <div className={styles.inputWrap}>
             <input

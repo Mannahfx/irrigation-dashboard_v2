@@ -44,11 +44,11 @@ export default function SensorCards({ sensors, relayState, mode }) {
       barVal: m,
     },
     {
-      label: 'Flow Rate',
-      value: sensors.flowrate ?? '--',
-      unit: 'L/min',
+      label: 'Tank State',
+      value: sensors.tank ?? '--',
+      unit: '',
       icon: <Waves size={24} />,
-      color: 'var(--green)',
+      color: sensors.tank === 'EMPTY' ? 'var(--red)' : (sensors.tank === 'FULL' ? 'var(--blue)' : 'var(--green)'),
     },
     {
       label: 'Total Flow',
