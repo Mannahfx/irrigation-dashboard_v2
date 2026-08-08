@@ -90,21 +90,21 @@ export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTemp
 
       <div className={styles.title} style={{ marginTop: '20px' }}>Cooling Fan Settings</div>
       <div className={styles.current}>
-        Current Temp: <span className={styles.currentVal}>ON: {fanTempOn}°C | OFF: {fanTempOff}°C</span>
+        Current Temp: <span className={styles.currentVal}>ON: {fanTempOn}{"\u00B0"}C | OFF: {fanTempOff}{"\u00B0"}C</span>
       </div>
       <div className={styles.row}>
         <div className={styles.field}>
           <label className={styles.fieldLabel}>Temp ON</label>
           <div className={styles.inputWrap}>
             <input type="number" value={fTempOn} onChange={e => setFTempOn(e.target.value)} className={styles.input} />
-            <span className={styles.unit}>°C</span>
+            <span className={styles.unit}>{"\u00B0"}C</span>
           </div>
         </div>
         <div className={styles.field}>
           <label className={styles.fieldLabel}>Temp OFF</label>
           <div className={styles.inputWrap}>
             <input type="number" value={fTempOff} onChange={e => setFTempOff(e.target.value)} className={styles.input} />
-            <span className={styles.unit}>°C</span>
+            <span className={styles.unit}>{"\u00B0"}C</span>
           </div>
         </div>
       </div>
@@ -135,7 +135,7 @@ export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTemp
         onClick={apply}
         disabled={!connected}
       >
-        ✓ Apply Thresholds
+        Apply Thresholds
       </button>
     </div>
   )
