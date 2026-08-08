@@ -171,13 +171,7 @@ export default function DashboardPage() {
               user={user}
               profile={profile}
             />
-            <RtcSetter
-              kitId={selectedKitId}
-              publish={mqtt.publish}
-              connected={mqtt.connected}
-              user={user}
-              profile={profile}
-            />
+
           </div>
         )}
 
