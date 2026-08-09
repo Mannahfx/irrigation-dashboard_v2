@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { useAuth } from '../contexts/AuthContext'
 import styles from './LoginPage.module.css'
 
@@ -262,7 +263,7 @@ export default function LoginPage() {
                   tabIndex="-1"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
-                  {showPassword ? '👁️‍🗨️' : '👁️'}
+                  {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
                 </button>
               </div>
             </div>
