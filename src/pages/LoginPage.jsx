@@ -148,7 +148,7 @@ export default function LoginPage() {
       <div className={styles.card}>
         {/* Brand header */}
         <div className={styles.brandArea}>
-          <div className={styles.logo}>R</div>
+          <img src="/logo-192.png" alt="Revo IMS Logo" className={styles.logo} />
           <div className={styles.brandName}>REVOSMART</div>
           <div className={styles.brandSub}>Smart Irrigation System</div>
         </div>
