@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { FaEye, FaEyeSlash, FaLeaf, FaCog } from 'react-icons/fa'
 import { useAuth } from '../contexts/AuthContext'
 import styles from './LoginPage.module.css'
 
@@ -181,7 +181,7 @@ export default function LoginPage() {
                   className={`${styles.typeBtn} ${accountType === 'client' ? styles.typeBtnActive : ''}`}
                   onClick={() => { setAccountType('client'); setAdminCode('') }}
                 >
-                  <span className={styles.typeIcon}>🌱</span>
+                  <span className={styles.typeIcon}><FaLeaf size={14} /></span>
                   <span>Client</span>
                 </button>
                 <button
@@ -189,7 +189,7 @@ export default function LoginPage() {
                   className={`${styles.typeBtn} ${accountType === 'admin' ? styles.typeBtnActiveAdmin : ''}`}
                   onClick={() => setAccountType('admin')}
                 >
-                  <span className={styles.typeIcon}>⚙</span>
+                  <span className={styles.typeIcon}><FaCog size={14} /></span>
                   <span>Company Worker</span>
                 </button>
               </div>
@@ -279,8 +279,8 @@ export default function LoginPage() {
               ? 'Send Reset Link'
               : isSignup
                 ? accountType === 'admin'
-                  ? '⚙ Create Admin Account'
-                  : '🌱 Create Client Account'
+                  ? 'Create Admin Account'
+                  : 'Create Client Account'
                 : 'Sign In'
             }
           </button>
