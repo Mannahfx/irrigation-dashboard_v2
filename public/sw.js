@@ -1,4 +1,4 @@
-const CACHE_NAME = 'revo-ims-v1';
+const CACHE_NAME = 'revo-ims-v2';
 const ASSETS = [
   '/',
   '/index.html',
@@ -22,23 +22,28 @@ self.addEventListener('fetch', (event) => {
   }
 
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      // Return cached version or fetch from network
-      return response || fetch(event.request).then((fetchRes) => {
+    fetch(event.request)
+      .then((networkResponse) => {
+        // If network fetch succeeds, cache the new response and return it
         return caches.open(CACHE_NAME).then((cache) => {
-          // Cache new requests to serve offline next time (only HTTP/HTTPS)
-          if (event.request.url.startsWith('http')) {
-            cache.put(event.request, fetchRes.clone());
+          if (event.request.url.startsWith('http') && event.request.method === 'GET') {
+            cache.put(event.request, networkResponse.clone());
           }
-          return fetchRes;
+          return networkResponse;
         });
-      });
-    }).catch(() => {
-      // Fallback to index.html for SPA routing if offline
-      if (event.request.mode === 'navigate') {
-        return caches.match('/index.html');
-      }
-    })
+      })
+      .catch(() => {
+        // If network fails (offline), fallback to cache
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          // Fallback to index.html for SPA routing if offline and requesting navigation
+          if (event.request.mode === 'navigate') {
+            return caches.match('/index.html');
+          }
+        });
+      })
   );
 });
 
