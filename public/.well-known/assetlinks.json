@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.revoims.twa",
+    "sha256_cert_fingerprints": ["0C:0F:5F:70:64:48:56:C2:5C:5A:14:5A:3F:AD:16:22:DF:5C:23:1E:27:04:25:AE:A8:D6:DD:5A:C0:D7:03:A7"]
+  }
+}]
