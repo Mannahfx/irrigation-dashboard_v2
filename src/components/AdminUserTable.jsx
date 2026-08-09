@@ -29,7 +29,6 @@ export default function AdminUserTable({ users, selectedUserId, onSelectUser }) 
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
-              <th>Device</th>
               <th>Last Login</th>
             </tr>
           </thead>
@@ -59,7 +58,6 @@ export default function AdminUserTable({ users, selectedUserId, onSelectUser }) 
                       {u.role}
                     </span>
                   </td>
-                  <td className={styles.mono}>{u.device_id || 'manna'}</td>
                   <td className={styles.timeCell}>
                     {u.last_login
                       ? new Date(u.last_login).toLocaleString()

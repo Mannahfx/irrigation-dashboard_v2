@@ -31,15 +31,10 @@
 .logo {
   width: 38px;
   height: 38px;
-  background: linear-gradient(135deg, var(--green), #ff9d40);
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 18px;
-  color: #fff;
+  object-fit: cover;
   flex-shrink: 0;
+  display: block;
 }
 
 .brandName {

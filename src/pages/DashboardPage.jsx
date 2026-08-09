@@ -79,7 +79,7 @@ export default function DashboardPage() {
       <div className={styles.emptyContainer}>
         <h2>No Kits Assigned</h2>
         <p>You haven't been assigned any Smart Irrigation Kits yet.</p>
-        <p>Please contact your administrator to assign a microcontroller to your account.</p>
+        <p>Please contact your administrator to assign a kit to your account.</p>
       </div>
     )
   }

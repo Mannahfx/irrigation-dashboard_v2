@@ -36,7 +36,7 @@ export default function App() {
               <header className={styles.header}>
                 <div className={styles.brand}>
                   <Link to={isAdmin ? '/admin' : '/'} className={styles.logoLink}>
-                    <div className={styles.logo}>R</div>
+                    <img src="/logo-192.png" alt="Revo IMS Logo" className={styles.logo} />
                   </Link>
                   <div>
                     <div className={styles.brandName}>REVOSMART</div>
