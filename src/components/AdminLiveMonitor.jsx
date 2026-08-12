@@ -83,6 +83,10 @@ export default function AdminLiveMonitor({ kit, onBack }) {
               kitId={kit.kit_id}
               threshLow={mqtt.threshLow}
               threshHigh={mqtt.threshHigh}
+              fanTempOn={mqtt.fanTempOn}
+              fanTempOff={mqtt.fanTempOff}
+              fanHumOn={mqtt.fanHumOn}
+              fanHumOff={mqtt.fanHumOff}
               publish={mqtt.publish}
               connected={mqtt.connected}
               user={adminUser}
