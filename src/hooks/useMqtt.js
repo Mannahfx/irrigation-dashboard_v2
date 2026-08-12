@@ -30,8 +30,6 @@ export default function useMqtt(kitId) {
   const [threshHigh,  setThreshHigh]  = useState('60')
   const [fanTempOn,   setFanTempOn]   = useState('32')
   const [fanTempOff,  setFanTempOff]  = useState('28')
-  const [fanHumOn,    setFanHumOn]    = useState('80')
-  const [fanHumOff,   setFanHumOff]   = useState('70')
   const [timersJson,  setTimersJson]  = useState(null)
   const [currentTime, setCurrentTime] = useState(null)
   const [logs,        setLogs]        = useState([])
@@ -65,8 +63,6 @@ export default function useMqtt(kitId) {
       `${base}/threshold/high`,
       `${base}/threshold/temp_on`,
       `${base}/threshold/temp_off`,
-      `${base}/threshold/hum_on`,
-      `${base}/threshold/hum_off`,
       `${base}/timers/state`,
       `${base}/alert`,
       `${base}/log`,
@@ -148,12 +144,6 @@ export default function useMqtt(kitId) {
         case `${base}/threshold/temp_off`:
           setFanTempOff(msg)
           break
-        case `${base}/threshold/hum_on`:
-          setFanHumOn(msg)
-          break
-        case `${base}/threshold/hum_off`:
-          setFanHumOff(msg)
-          break
         case `${base}/timers/state`:
           setTimersJson(msg)
           break
@@ -208,7 +198,7 @@ export default function useMqtt(kitId) {
 
   return {
     connected, sensors, relayState, pumpState, fanState, mode,
-    threshLow, threshHigh, fanTempOn, fanTempOff, fanHumOn, fanHumOff, timersJson, currentTime,
+    threshLow, threshHigh, fanTempOn, fanTempOff, timersJson, currentTime,
     logs, alerts, feedback,
     tempHistory, moistHistory, espStatus,
     publish,

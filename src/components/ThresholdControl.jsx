@@ -7,8 +7,6 @@ export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTemp
   const [high, setHigh] = useState(threshHigh || '60')
   const [fTempOn, setFTempOn] = useState(fanTempOn || '32')
   const [fTempOff, setFTempOff] = useState(fanTempOff || '28')
-  const [fHumOn, setFHumOn] = useState(fanHumOn || '80')
-  const [fHumOff, setFHumOff] = useState(fanHumOff || '70')
   const [err,  setErr]  = useState('')
 
   useEffect(() => {
@@ -16,9 +14,7 @@ export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTemp
     if (threshHigh) setHigh(threshHigh)
     if (fanTempOn) setFTempOn(fanTempOn)
     if (fanTempOff) setFTempOff(fanTempOff)
-    if (fanHumOn) setFHumOn(fanHumOn)
-    if (fanHumOff) setFHumOff(fanHumOff)
-  }, [threshLow, threshHigh, fanTempOn, fanTempOff, fanHumOn, fanHumOff])
+  }, [threshLow, threshHigh, fanTempOn, fanTempOff])
 
   function apply() {
     if (!kitId) return
@@ -27,18 +23,15 @@ export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTemp
     const hi = parseInt(high)
     const tOn = parseInt(fTempOn)
     const tOff = parseInt(fTempOff)
-    const hOn = parseInt(fHumOn)
-    const hOff = parseInt(fHumOff)
     
     if (isNaN(lo) || isNaN(hi)) { setErr('Enter valid moisture numbers'); return }
-    if (isNaN(tOn) || isNaN(tOff) || isNaN(hOn) || isNaN(hOff)) { setErr('Enter valid fan numbers'); return }
+    if (isNaN(tOn) || isNaN(tOff)) { setErr('Enter valid fan numbers'); return }
     
     if (lo < 1 || lo > 94)      { setErr('Moisture Low must be 1–94');    return }
     if (hi < 2 || hi > 95)      { setErr('Moisture High must be 2–95');   return }
     if (lo >= hi)               { setErr('Moisture Low must be < High'); return }
     
     if (tOff >= tOn)            { setErr('Fan Temp OFF must be < ON'); return }
-    if (hOff >= hOn)            { setErr('Fan Hum OFF must be < ON'); return }
 
     setErr('')
     
@@ -47,8 +40,6 @@ export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTemp
     publish(`${kitId}/threshold/high`, String(hi))
     publish(`${kitId}/threshold/temp_on`, String(tOn))
     publish(`${kitId}/threshold/temp_off`, String(tOff))
-    publish(`${kitId}/threshold/hum_on`, String(hOn))
-    publish(`${kitId}/threshold/hum_off`, String(hOff))
     
     if (user) {
       logActivity(user.id, user.email, 'THRESHOLD_SET', `Thresholds updated`, profile?.device_id || kitId)
@@ -116,26 +107,6 @@ export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTemp
           <div className={styles.inputWrap}>
             <input type="number" value={fTempOff} onChange={e => setFTempOff(e.target.value)} className={styles.input} />
             <span className={styles.unit}>{"\u00B0"}C</span>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.current} style={{ marginTop: '10px' }}>
-        Current Hum: <span className={styles.currentVal}>ON: {fanHumOn}% | OFF: {fanHumOff}%</span>
-      </div>
-      <div className={styles.row}>
-        <div className={styles.field}>
-          <label className={styles.fieldLabel}>Hum ON</label>
-          <div className={styles.inputWrap}>
-            <input type="number" value={fHumOn} onChange={e => setFHumOn(e.target.value)} className={styles.input} />
-            <span className={styles.unit}>%</span>
-          </div>
-        </div>
-        <div className={styles.field}>
-          <label className={styles.fieldLabel}>Hum OFF</label>
-          <div className={styles.inputWrap}>
-            <input type="number" value={fHumOff} onChange={e => setFHumOff(e.target.value)} className={styles.input} />
-            <span className={styles.unit}>%</span>
           </div>
         </div>
       </div>
