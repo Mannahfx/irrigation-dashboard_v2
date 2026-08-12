@@ -3,9 +3,9 @@ import { logActivity } from '../lib/activityLogger'
 import styles from './ThresholdControl.module.css'
 
 export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTempOn, fanTempOff, fanHumOn, fanHumOff, publish, connected, user, profile }) {
-  const [low,  setLow]  = useState(threshLow || '20')
+  const [low,  setLow]  = useState(threshLow || '10')
   const [high, setHigh] = useState(threshHigh || '60')
-  const [fTempOn, setFTempOn] = useState(fanTempOn || '32')
+  const [fTempOn, setFTempOn] = useState(fanTempOn || '38')
   const [fTempOff, setFTempOff] = useState(fanTempOff || '28')
   const [err,  setErr]  = useState('')
 
