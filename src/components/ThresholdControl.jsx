@@ -1,15 +1,24 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { logActivity } from '../lib/activityLogger'
 import styles from './ThresholdControl.module.css'
 
 export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTempOn, fanTempOff, fanHumOn, fanHumOff, publish, connected, user, profile }) {
-  const [low,  setLow]  = useState('20')
-  const [high, setHigh] = useState('60')
-  const [fTempOn, setFTempOn] = useState('32')
-  const [fTempOff, setFTempOff] = useState('28')
-  const [fHumOn, setFHumOn] = useState('80')
-  const [fHumOff, setFHumOff] = useState('70')
+  const [low,  setLow]  = useState(threshLow || '20')
+  const [high, setHigh] = useState(threshHigh || '60')
+  const [fTempOn, setFTempOn] = useState(fanTempOn || '32')
+  const [fTempOff, setFTempOff] = useState(fanTempOff || '28')
+  const [fHumOn, setFHumOn] = useState(fanHumOn || '80')
+  const [fHumOff, setFHumOff] = useState(fanHumOff || '70')
   const [err,  setErr]  = useState('')
+
+  useEffect(() => {
+    if (threshLow) setLow(threshLow)
+    if (threshHigh) setHigh(threshHigh)
+    if (fanTempOn) setFTempOn(fanTempOn)
+    if (fanTempOff) setFTempOff(fanTempOff)
+    if (fanHumOn) setFHumOn(fanHumOn)
+    if (fanHumOff) setFHumOff(fanHumOff)
+  }, [threshLow, threshHigh, fanTempOn, fanTempOff, fanHumOn, fanHumOff])
 
   function apply() {
     if (!kitId) return
