@@ -71,6 +71,8 @@ export default function AdminLiveMonitor({ kit, onBack }) {
             <PumpControl
               kitId={kit.kit_id}
               relayState={mqtt.relayState}
+              pumpState={mqtt.pumpState}
+              fanState={mqtt.fanState}
               mode={mqtt.mode}
               publish={mqtt.publish}
               connected={mqtt.connected}
