@@ -5,8 +5,8 @@ import styles from './ThresholdControl.module.css'
 export default function ThresholdControl({ kitId, threshLow, threshHigh, fanTempOn, fanTempOff, fanHumOn, fanHumOff, publish, connected, user, profile }) {
   const [low,  setLow]  = useState(threshLow || '10')
   const [high, setHigh] = useState(threshHigh || '60')
-  const [fTempOn, setFTempOn] = useState(fanTempOn || '38')
-  const [fTempOff, setFTempOff] = useState(fanTempOff || '28')
+  const [fTempOn, setFTempOn] = useState(fanTempOn || '30')
+  const [fTempOff, setFTempOff] = useState(fanTempOff || '20')
   const [err,  setErr]  = useState('')
 
   useEffect(() => {
