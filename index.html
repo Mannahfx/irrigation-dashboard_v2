@@ -16,13 +16,14 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script>
+      // Automatically unregister any existing service workers
+      // This forces the browser to pull the latest updates directly from the server.
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').then((reg) => {
-            console.log('ServiceWorker registered with scope:', reg.scope);
-          }).catch((err) => {
-            console.error('ServiceWorker registration failed:', err);
-          });
+        navigator.serviceWorker.getRegistrations().then(function(registrations) {
+          for(let registration of registrations) {
+            registration.unregister();
+            console.log('ServiceWorker unregistered.');
+          }
         });
       }
     </script>
