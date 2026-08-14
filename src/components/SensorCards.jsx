@@ -65,7 +65,7 @@ export default function SensorCards({ sensors, relayState, mode }) {
       <div className={styles.statusRow}>
         <div className={`${styles.statusPill} ${relayState === 'ON' ? styles.pumpOn : styles.pumpOff}`}>
           <span className={styles.pillDot} />
-          Pump {relayState}
+          Irrigation Valve {relayState}
         </div>
         <div className={styles.statusPill} style={{ borderColor: 'var(--green-dim)', color: 'var(--green)' }}>
           {mode} MODE

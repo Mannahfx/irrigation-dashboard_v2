@@ -126,13 +126,13 @@ export default function PumpControl({ kitId, relayState, pumpState, fanState, mo
           </div>
           {!isManual && (
             <div className={styles.autoNote}>
-              Pump controlled by {mode} mode
+              Valve controlled by {mode} mode
             </div>
           )}
         </div>
 
         <div className={styles.switchWrapper}>
-          <span className={styles.switchLabel}>Pump Power</span>
+            <span className={styles.switchLabel}>Valve Power</span>
           <label className={`${styles.switch} ${(!connected || !isManual) ? styles.disabled : ''}`}>
             <input
               type="checkbox"
