@@ -61,7 +61,7 @@ export default function AdminLiveMonitor({ kit, onBack }) {
         {tab === 'Monitor' && (
           <div className={styles.monitorGrid}>
             <SensorCards sensors={mqtt.sensors} relayState={mqtt.relayState} mode={mqtt.mode} />
-            <SensorChart tempHistory={mqtt.tempHistory} moistHistory={mqtt.moistHistory} />
+            <SensorChart tempHistory={mqtt.tempHistory} moistHistory={mqtt.moistHistory} humHistory={mqtt.humHistory} />
           </div>
         )}
 

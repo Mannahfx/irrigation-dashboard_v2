@@ -38,6 +38,7 @@ export default function useMqtt(kitId) {
   const [espStatus,   setEspStatus]   = useState(null)
   const [tempHistory, setTempHistory] = useState([])
   const [moistHistory,setMoistHistory]= useState([])
+  const [humHistory,  setHumHistory]  = useState([])
 
   useEffect(() => {
     // If no kit is selected, don't connect yet
@@ -103,6 +104,7 @@ export default function useMqtt(kitId) {
           break
         case `${base}/sensor/humidity`:
           setSensors(s => ({ ...s, humidity: msg }))
+          setHumHistory(h => [...h.slice(-29), { time: ts, value: parseFloat(msg) }])
           break
         case `${base}/sensor/moisture`:
           setSensors(s => ({ ...s, moisture: msg }))
@@ -200,7 +202,7 @@ export default function useMqtt(kitId) {
     connected, sensors, relayState, pumpState, fanState, mode,
     threshLow, threshHigh, fanTempOn, fanTempOff, timersJson, currentTime,
     logs, alerts, feedback,
-    tempHistory, moistHistory, espStatus,
+    tempHistory, moistHistory, humHistory, espStatus,
     publish,
   }
 }
