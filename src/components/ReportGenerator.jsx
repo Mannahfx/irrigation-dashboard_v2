@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import supabase from '../lib/supabase'
+import { FileText, RefreshCw, FileSpreadsheet, File as FileIcon } from 'lucide-react'
 import styles from './ReportGenerator.module.css'
 
 export default function ReportGenerator({ kitId, kitName }) {
@@ -157,7 +158,9 @@ export default function ReportGenerator({ kitId, kitName }) {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>📊 Usage Reports</h2>
+      <h2 className={styles.title}>
+        <FileText size={24} /> Usage Reports
+      </h2>
       <p className={styles.subtitle}>Generate and download sensor data reports for this kit</p>
 
       <div className={styles.controls}>
@@ -169,7 +172,9 @@ export default function ReportGenerator({ kitId, kitName }) {
           <label>To:</label>
           <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} className={styles.dateInput} />
         </div>
-        <button onClick={fetchSnapshots} className={styles.refreshBtn}>🔄 Refresh</button>
+        <button onClick={fetchSnapshots} className={styles.refreshBtn}>
+          <RefreshCw size={16} /> Refresh
+        </button>
       </div>
 
       {summary && (
@@ -187,8 +192,12 @@ export default function ReportGenerator({ kitId, kitName }) {
       )}
 
       <div className={styles.downloadBar}>
-        <button onClick={downloadCSV} disabled={snapshots.length === 0} className={styles.downloadBtn}>📥 Download CSV</button>
-        <button onClick={downloadPDF} disabled={snapshots.length === 0} className={`${styles.downloadBtn} ${styles.pdfBtn}`}>📄 Download PDF</button>
+        <button onClick={downloadCSV} disabled={snapshots.length === 0} className={styles.downloadBtn}>
+          <FileSpreadsheet size={16} /> Download CSV
+        </button>
+        <button onClick={downloadPDF} disabled={snapshots.length === 0} className={`${styles.downloadBtn} ${styles.pdfBtn}`}>
+          <FileIcon size={16} /> Download PDF
+        </button>
       </div>
 
       {loading ? (
