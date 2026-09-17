@@ -1,0 +1,174 @@
+.container {
+  padding: 1rem;
+}
+
+.title {
+  color: var(--text-primary, #d4e8d0);
+  font-size: 1.25rem;
+  margin: 0 0 0.25rem;
+}
+
+.subtitle {
+  color: var(--text-muted, #6b8f84);
+  font-size: 0.85rem;
+  margin: 0 0 1.25rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.dateGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.dateGroup label {
+  color: var(--text-muted, #6b8f84);
+  font-size: 0.75rem;
+}
+
+.dateInput {
+  background: var(--bg-card, #0d2b1a);
+  border: 1px solid var(--border, #1a3d2a);
+  border-radius: 6px;
+  color: var(--text-primary, #d4e8d0);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.refreshBtn {
+  background: var(--bg-card, #0d2b1a);
+  border: 1px solid var(--border, #1a3d2a);
+  border-radius: 6px;
+  color: var(--text-primary, #d4e8d0);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.refreshBtn:hover {
+  background: var(--bg-hover, #1a3d2a);
+}
+
+.summaryCard {
+  background: var(--bg-card, #0d2b1a);
+  border: 1px solid var(--border, #1a3d2a);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.summaryCard h3 {
+  color: var(--text-primary, #d4e8d0);
+  font-size: 0.95rem;
+  margin: 0 0 0.75rem;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 0.75rem;
+}
+
+.summaryItem {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.val {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1D9E75;
+}
+
+.label {
+  font-size: 0.7rem;
+  color: var(--text-muted, #6b8f84);
+}
+
+.downloadBar {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.downloadBtn {
+  background: #1D9E75;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 0.6rem 1.25rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.downloadBtn:hover {
+  opacity: 0.85;
+}
+
+.downloadBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pdfBtn {
+  background: #2563eb;
+}
+
+.loadingText,
+.emptyText {
+  color: var(--text-muted, #6b8f84);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border, #1a3d2a);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.table th,
+.table td {
+  padding: 0.5rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border, #1a3d2a);
+  white-space: nowrap;
+}
+
+.table th {
+  background: var(--bg-card, #0d2b1a);
+  color: var(--text-muted, #6b8f84);
+  font-weight: 600;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+}
+
+.table td {
+  color: var(--text-primary, #d4e8d0);
+}
+
+.table tbody tr:hover {
+  background: rgba(29, 158, 117, 0.08);
+}

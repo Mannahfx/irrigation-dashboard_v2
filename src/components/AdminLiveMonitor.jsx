@@ -7,9 +7,10 @@ import RtcSetter from '../components/RtcSetter'
 import EventLog from '../components/EventLog'
 import AlertBanner from '../components/AlertBanner'
 import SensorChart from '../components/SensorChart'
+import ReportGenerator from '../components/ReportGenerator'
 import styles from './AdminLiveMonitor.module.css'
 
-const TABS = ['Monitor', 'Control', 'Log']
+const TABS = ['Monitor', 'Control', 'Log', 'Reports']
 
 export default function AdminLiveMonitor({ kit, onBack }) {
   const mqtt = useMqtt(kit.kit_id)
@@ -101,6 +102,13 @@ export default function AdminLiveMonitor({ kit, onBack }) {
 
         {tab === 'Log' && (
           <EventLog logs={mqtt.logs} />
+        )}
+
+        {tab === 'Reports' && (
+          <ReportGenerator
+            kitId={kit.kit_id}
+            kitName={kit.name || kit.kit_id}
+          />
         )}
       </main>
     </div>

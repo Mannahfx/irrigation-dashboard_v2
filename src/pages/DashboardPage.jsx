@@ -10,9 +10,10 @@ import RtcSetter from '../components/RtcSetter'
 import EventLog from '../components/EventLog'
 import AlertBanner from '../components/AlertBanner'
 import SensorChart from '../components/SensorChart'
+import ReportGenerator from '../components/ReportGenerator'
 import styles from './DashboardPage.module.css'
 
-const TABS = ['Monitor', 'Control', 'Log']
+const TABS = ['Monitor', 'Control', 'Log', 'Reports']
 
 export default function DashboardPage() {
   const { user, profile } = useAuth()
@@ -174,6 +175,13 @@ export default function DashboardPage() {
 
         {tab === 'Log' && (
           <EventLog logs={mqtt.logs} />
+        )}
+
+        {tab === 'Reports' && (
+          <ReportGenerator
+            kitId={selectedKitId}
+            kitName={kits.find(k => k.kit_id === selectedKitId)?.name || selectedKitId}
+          />
         )}
       </main>
     </>

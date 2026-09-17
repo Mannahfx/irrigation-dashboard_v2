@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bill of Materials</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #f4f4f4; color: #333; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .total-row { font-weight: bold; background-color: #e9e9e9 !important; }
+        .footer { margin-top: 30px; font-size: 0.9em; color: #555; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <h1>Smart Irrigation System - Bill of Materials (Hub360)</h1>
+    <p>Estimated component costs based on typical Hub360 and Nigerian electronics market rates.</p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>S/N</th>
+                <th>Component Name</th>
+                <th>Qty</th>
+                <th>Est. Cost (₦)</th>
+                <th>Purpose in Project</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>1</td><td>ESP32 Development Board</td><td>1</td><td>8,000</td><td>Main microcontroller with Wi-Fi & MQTT</td></tr>
+            <tr><td>2</td><td>DHT11 Temp & Humidity Sensor</td><td>1</td><td>1,900</td><td>Monitor greenhouse/farm climate</td></tr>
+            <tr><td>3</td><td>Capacitive Soil Moisture Sensor v2.0</td><td>1</td><td>1,500</td><td>Corrosion-resistant soil moisture reading</td></tr>
+            <tr><td>4</td><td>YF-S201 Water Flow Sensor</td><td>1</td><td>3,000</td><td>Measure flow rate and total water volume</td></tr>
+            <tr><td>5</td><td>Water Level Float Switch</td><td>2</td><td>3,000</td><td>Upper (full) and Lower (empty) tank limits</td></tr>
+            <tr><td>6</td><td>4-Channel 5V Relay Module</td><td>1</td><td>3,500</td><td>Safely switch the 12V valve, pump, and fan</td></tr>
+            <tr><td>7</td><td>1.3" I2C OLED Display (SH1106)</td><td>1</td><td>4,500</td><td>Local on-device screen for offline monitoring</td></tr>
+            <tr><td>8</td><td>12V DC Solenoid Valve (1/2 inch)</td><td>1</td><td>5,000</td><td>The Irrigation Valve to release water to crops</td></tr>
+            <tr><td>9</td><td>12V DC Submersible Water Pump</td><td>1</td><td>3,000</td><td>Fills the water tank when it gets empty</td></tr>
+            <tr><td>10</td><td>12V DC Cooling Fan</td><td>1</td><td>1,500</td><td>Cools the greenhouse based on temp/humidity</td></tr>
+            <tr><td>11</td><td>12V 2A DC Power Adapter</td><td>1</td><td>3,500</td><td>Main power supply for the whole system</td></tr>
+            <tr><td>12</td><td>LM2596 DC-DC Buck Converter</td><td>1</td><td>1,500</td><td>Steps down 12V to 5V to power the ESP32</td></tr>
+            <tr><td>13</td><td>Resistor Pack (10kΩ, 33kΩ, 155kΩ)</td><td>1</td><td>500</td><td>10k pull-up for Flow Sensor; 33k/155k for Battery monitor</td></tr>
+            <tr><td>14</td><td>Capacitor Pack (100uF, 0.1uF)</td><td>1</td><td>500</td><td>Power smoothing and noise filtering</td></tr>
+            <tr><td>15</td><td>Dupont Jumper Wires (Assorted)</td><td>2</td><td>1,500</td><td>Internal wiring between ESP32 and modules</td></tr>
+            <tr><td>16</td><td>PCB Prototype Board (Veroboard)</td><td>1</td><td>1,000</td><td>For soldering the circuit permanently</td></tr>
+            <tr><td>17</td><td>Screw Terminal Blocks (2-pin / 3-pin)</td><td>5</td><td>500</td><td>Easy screw-in connections for external wires</td></tr>
+            <tr class="total-row"><td colspan="3" style="text-align: right;">ESTIMATED TOTAL</td><td>~ ₦ 43,900</td><td></td></tr>
+        </tbody>
+    </table>
+
+    <div class="footer">
+        <strong>Power Architecture Note:</strong><br/>
+        Because the ESP32 and the sensors require 5V / 3.3V but the heavy actuators (Valve, Pump, Fan) require 12V, the best wiring approach is:<br/>
+        1. Connect the 12V Power Adapter directly to the Relays (to power the Valve/Pump/Fan).<br/>
+        2. Connect the 12V Power Adapter to the LM2596 Buck Converter.<br/>
+        3. Tune the Buck Converter output to exactly 5V and feed that into the VIN (or 5V) pin of the ESP32 to power the brain safely.
+    </div>
+</body>
+</html>

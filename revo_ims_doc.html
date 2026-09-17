@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Revo IMS Documentation</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 40px; color: #222; line-height: 1.6; font-size: 13px; }
+        h1 { color: #1a5c3a; font-size: 24px; border-bottom: 3px solid #1a5c3a; padding-bottom: 8px; }
+        h2 { color: #1a5c3a; font-size: 18px; margin-top: 30px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+        h3 { color: #333; font-size: 14px; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0 20px 0; font-size: 12px; }
+        th, td { border: 1px solid #ccc; padding: 8px 10px; text-align: left; }
+        th { background-color: #1a5c3a; color: white; }
+        tr:nth-child(even) { background-color: #f5f5f5; }
+        .total-row { font-weight: bold; background-color: #e0e0e0 !important; }
+        code { background: #f0f0f0; padding: 2px 5px; border-radius: 3px; font-size: 12px; }
+        pre { background: #f5f5f5; border: 1px solid #ddd; padding: 12px; border-radius: 5px; overflow-x: auto; font-size: 11px; line-height: 1.4; }
+        .header-block { text-align: center; margin-bottom: 30px; }
+        .header-block h1 { border: none; font-size: 28px; }
+        .header-block p { color: #555; margin: 2px 0; }
+        .arch-diagram { background: #f8f8f8; border: 1px solid #ddd; padding: 15px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 11px; white-space: pre; line-height: 1.3; }
+        .page-break { page-break-before: always; }
+    </style>
+</head>
+<body>
+
+<div class="header-block">
+    <h1>Revo IMS</h1>
+    <p><strong>IoT Smart Irrigation &amp; Monitoring System</strong></p>
+    <p>Technical Documentation v1.0</p>
+    <p>RevoSmart Integrated Services | September 2026</p>
+</div>
+
+<h2>1. System Overview</h2>
+<p>The <strong>Revo IMS (Irrigation Monitoring System)</strong> is an affordable, IoT-based smart agricultural monitoring and control system designed for greenhouse and small-scale farming environments. It automates the regulation of soil moisture, temperature, humidity, water flow, and tank levels while providing real-time remote access through a cloud-connected web dashboard.</p>
+
+<h3>Key Features</h3>
+<ul>
+    <li>Real-time monitoring of 5 environmental parameters (Temperature, Humidity, Soil Moisture, Flow Rate, Tank Level)</li>
+    <li>Three operating modes: MANUAL, AUTO, and TIMER</li>
+    <li>Automated irrigation valve control based on configurable soil moisture thresholds</li>
+    <li>Automated cooling fan control based on temperature thresholds</li>
+    <li>Tank level safety interlocks to prevent pump dry-running</li>
+    <li>EEPROM-based offline fallback (continues operating if WiFi drops)</li>
+    <li>Secure MQTT communication over TLS (HiveMQ Cloud)</li>
+    <li>Custom React.js web dashboard with live charts, event logging, and multi-user authentication</li>
+    <li>1.3" OLED display for local status monitoring</li>
+    <li>Water flow metering and total volume tracking</li>
+</ul>
+
+<h2>2. System Architecture</h2>
+<div class="arch-diagram">
+┌──────────────────────────────────────────────────────┐
+│                    CLOUD LAYER                       │
+│  ┌───────────────┐    ┌───────────────────────────┐  │
+│  │  HiveMQ Cloud │    │  Supabase (Auth + DB)     │  │
+│  │  MQTT Broker  │    │  User accounts, kit mgmt  │  │
+│  │  (TLS 8883)   │    └───────────────────────────┘  │
+│  └───────┬───────┘                                   │
+└──────────┼───────────────────────────────────────────┘
+           │ MQTT Pub/Sub
+     ┌─────┴──────┐                  ┌─────────────────┐
+     │   ESP32    │                  │  React.js Web   │
+     │  Firmware  │◄── MQTT ───►    │  Dashboard      │
+     │  (Device)  │                  │  (Browser)      │
+     └─────┬──────┘                  └─────────────────┘
+           │
+     ┌─────┴──────────────────────────────┐
+     │         HARDWARE LAYER             │
+     │  Sensors: DHT11, Capacitive Moist, │
+     │  YF-S201, Float Switches           │
+     │  Actuators: Valve, Pump, Fan       │
+     │  Display: 1.3" OLED SH1106        │
+     └────────────────────────────────────┘</div>
+
+<h2>3. Hardware Specifications</h2>
+
+<h3>3.1 Pin Mapping (ESP32)</h3>
+<table>
+    <tr><th>GPIO Pin</th><th>Component</th><th>Description</th></tr>
+    <tr><td>19</td><td><code>RL2_VALVE</code></td><td>Solenoid Irrigation Valve (12V)</td></tr>
+    <tr><td>18</td><td><code>RL4_PUMP</code></td><td>Submersible Water Pump (12V)</td></tr>
+    <tr><td>16</td><td><code>RL5_FAN</code></td><td>Cooling Fan (12V)</td></tr>
+    <tr><td>13</td><td><code>DHT_PIN</code></td><td>DHT11 Temperature &amp; Humidity Sensor</td></tr>
+    <tr><td>32</td><td><code>MOIST_A</code></td><td>Capacitive Soil Moisture Sensor (Analog)</td></tr>
+    <tr><td>33</td><td><code>BAT_PIN</code></td><td>Battery Voltage Monitor (Analog)</td></tr>
+    <tr><td>27</td><td><code>FLOAT_LOW</code></td><td>Tank Lower Float Switch (Digital)</td></tr>
+    <tr><td>14</td><td><code>FLOAT_HIGH</code></td><td>Tank Upper Float Switch (Digital)</td></tr>
+    <tr><td>35</td><td><code>FLOW_PIN</code></td><td>YF-S201 Water Flow Sensor (Interrupt)</td></tr>
+    <tr><td>21</td><td><code>SDA</code></td><td>I2C Data (OLED Display)</td></tr>
+    <tr><td>22</td><td><code>SCL</code></td><td>I2C Clock (OLED Display)</td></tr>
+</table>
+
+<h3>3.2 Relay Configuration</h3>
+<p>The relay module uses <strong>PC817 optocouplers</strong> and operates in <strong>Active-LOW</strong> mode:</p>
+<ul>
+    <li><code>digitalWrite(pin, LOW)</code> = Relay ON (device powered)</li>
+    <li><code>digitalWrite(pin, HIGH)</code> = Relay OFF (device unpowered)</li>
+</ul>
+
+<h3>3.3 Sensor Calibration</h3>
+<p><strong>Capacitive Soil Moisture Sensor v2.0:</strong></p>
+<table>
+    <tr><th>Condition</th><th>Raw ADC Value</th><th>Mapped Output</th></tr>
+    <tr><td>Dry (Air)</td><td>3200</td><td>0%</td></tr>
+    <tr><td>Wet (Water)</td><td>1200</td><td>100%</td></tr>
+</table>
+<p><strong>YF-S201:</strong> Pulses per litre = 450. Flow rate = <code>(pulseCount / 450.0) * 60.0</code> L/min</p>
+<p><strong>Battery Monitor:</strong> Divider ratio = 155k/33k = 4.697. <code>vBat = (ADC / 4095.0) * 3.3 * 4.697</code></p>
+
+<div class="page-break"></div>
+
+<h2>4. Bill of Materials (BOM)</h2>
+<table>
+    <tr><th>S/N</th><th>Component</th><th>Qty</th><th>Est. Cost (₦)</th></tr>
+    <tr><td>1</td><td>ESP32 Development Board</td><td>1</td><td>8,000</td></tr>
+    <tr><td>2</td><td>DHT11 Temp &amp; Humidity Sensor</td><td>1</td><td>1,900</td></tr>
+    <tr><td>3</td><td>Capacitive Soil Moisture Sensor v2.0</td><td>1</td><td>1,500</td></tr>
+    <tr><td>4</td><td>YF-S201 Water Flow Sensor</td><td>1</td><td>3,000</td></tr>
+    <tr><td>5</td><td>Water Level Float Switch</td><td>2</td><td>3,000</td></tr>
+    <tr><td>6</td><td>4-Channel 5V Relay Module</td><td>1</td><td>3,500</td></tr>
+    <tr><td>7</td><td>1.3" I2C OLED Display (SH1106)</td><td>1</td><td>4,500</td></tr>
+    <tr><td>8</td><td>12V DC Solenoid Valve (1/2 inch)</td><td>1</td><td>5,000</td></tr>
+    <tr><td>9</td><td>12V DC Submersible Water Pump</td><td>1</td><td>3,000</td></tr>
+    <tr><td>10</td><td>12V DC Cooling Fan</td><td>1</td><td>1,500</td></tr>
+    <tr><td>11</td><td>12V 2A DC Power Adapter</td><td>1</td><td>3,500</td></tr>
+    <tr><td>12</td><td>LM2596 DC-DC Buck Converter</td><td>1</td><td>1,500</td></tr>
+    <tr><td>13</td><td>Resistor Pack (10kΩ, 33kΩ, 155kΩ)</td><td>1</td><td>500</td></tr>
+    <tr><td>14</td><td>Capacitor Pack (100uF, 0.1uF)</td><td>1</td><td>500</td></tr>
+    <tr><td>15</td><td>Dupont Jumper Wires (Assorted)</td><td>2</td><td>1,500</td></tr>
+    <tr><td>16</td><td>PCB Prototype Board (Veroboard)</td><td>1</td><td>1,000</td></tr>
+    <tr><td>17</td><td>Screw Terminal Blocks (2/3-pin)</td><td>5</td><td>500</td></tr>
+    <tr class="total-row"><td colspan="3" style="text-align:right;">ESTIMATED TOTAL</td><td>~ ₦ 43,900</td></tr>
+</table>
+
+<h2>5. Firmware Architecture</h2>
+
+<h3>5.1 EEPROM Configuration Structure</h3>
+<pre>struct SystemConfig {
+  float totalLitres;   // Accumulated water flow
+  float threshLow;     // Moisture % to turn valve ON (default: 10)
+  float threshHigh;    // Moisture % to turn valve OFF (default: 60)
+  float fanTempOn;     // Temperature to turn fan ON (default: 30°C)
+  float fanTempOff;    // Temperature to turn fan OFF (default: 20°C)
+  float fanHumOn;      // Humidity to turn fan ON
+  float fanHumOff;     // Humidity to turn fan OFF
+  uint8_t isAutoMode;  // 1 = AUTO, 0 = MANUAL
+};</pre>
+
+<h3>5.2 Operating Modes</h3>
+<table>
+    <tr><th>Mode</th><th>Behavior</th></tr>
+    <tr><td><strong>MANUAL</strong></td><td>All actuators are controlled exclusively by the user via the web dashboard. No automatic actions are taken.</td></tr>
+    <tr><td><strong>AUTO</strong></td><td>The firmware automatically controls the irrigation valve based on soil moisture thresholds, the cooling fan based on temperature thresholds, and the pump based on tank float switch readings.</td></tr>
+    <tr><td><strong>TIMER</strong></td><td>Actuators are triggered based on user-configured time slots. Up to 5 timer slots can be set via the dashboard.</td></tr>
+</table>
+
+<h3>5.3 Auto Mode Control Logic</h3>
+<p><strong>Irrigation Valve (Hysteresis):</strong> Valve turns ON when moisture &le; thresholdLow. Valve turns OFF when moisture &ge; thresholdHigh. Remains in current state between thresholds to prevent chattering.</p>
+<p><strong>Cooling Fan:</strong> Fan turns ON when temperature &ge; fanTempOn. Fan turns OFF when temperature &le; fanTempOff.</p>
+<p><strong>Tank Pump (Safety Interlock):</strong> Pump ON when FLOAT_LOW = LOW (tank empty). Pump OFF when FLOAT_HIGH = LOW (tank full). Pump BLOCKED if tank is empty to prevent dry-running.</p>
+
+<h3>5.4 Offline Fallback</h3>
+<p>When WiFi is lost: (1) ESP32 attempts reconnection with non-blocking 20-second timeout. (2) If reconnection fails, the system continues operating using EEPROM-stored thresholds. (3) Sensor readings, actuator control, and OLED display continue normally. (4) When WiFi returns, MQTT reconnects automatically.</p>
+
+<h3>5.5 Non-Blocking Timing</h3>
+<table>
+    <tr><th>Operation</th><th>Interval</th></tr>
+    <tr><td>Sensor readings</td><td>10 seconds</td></tr>
+    <tr><td>OLED display refresh</td><td>2 seconds</td></tr>
+    <tr><td>MQTT publish</td><td>10 seconds</td></tr>
+    <tr><td>Flow rate calculation</td><td>1 second</td></tr>
+    <tr><td>EEPROM save</td><td>60 seconds</td></tr>
+    <tr><td>OLED page flip</td><td>5 seconds</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<h2>6. MQTT Communication</h2>
+
+<h3>6.1 Broker Configuration</h3>
+<table>
+    <tr><th>Parameter</th><th>Value</th></tr>
+    <tr><td>Broker</td><td>HiveMQ Cloud</td></tr>
+    <tr><td>Protocol</td><td>MQTT over TLS (WSS)</td></tr>
+    <tr><td>Port</td><td>8883 (firmware) / 8884 (web dashboard)</td></tr>
+    <tr><td>Authentication</td><td>Username + Password</td></tr>
+</table>
+
+<h3>6.2 Sensor Topics (ESP32 Publishes)</h3>
+<table>
+    <tr><th>Topic</th><th>Payload</th><th>Description</th></tr>
+    <tr><td><code>{KIT_ID}/sensor/temperature</code></td><td>28.5</td><td>Temperature in °C</td></tr>
+    <tr><td><code>{KIT_ID}/sensor/humidity</code></td><td>65.2</td><td>Relative humidity in %</td></tr>
+    <tr><td><code>{KIT_ID}/sensor/moisture</code></td><td>42.0</td><td>Soil moisture in %</td></tr>
+    <tr><td><code>{KIT_ID}/sensor/flowrate</code></td><td>1.5</td><td>Flow rate in L/min</td></tr>
+    <tr><td><code>{KIT_ID}/sensor/totalflow</code></td><td>125.8</td><td>Total flow in litres</td></tr>
+    <tr><td><code>{KIT_ID}/sensor/tank</code></td><td>FULL / FILLING / EMPTY</td><td>Tank water level state</td></tr>
+</table>
+
+<h3>6.3 Relay &amp; Mode Topics (Bidirectional)</h3>
+<table>
+    <tr><th>Topic</th><th>Payload</th><th>Description</th></tr>
+    <tr><td><code>{KIT_ID}/relay/state</code></td><td>ON / OFF</td><td>Irrigation valve state</td></tr>
+    <tr><td><code>{KIT_ID}/relay/pump</code></td><td>ON / OFF</td><td>Tank pump state</td></tr>
+    <tr><td><code>{KIT_ID}/relay/fan</code></td><td>ON / OFF</td><td>Cooling fan state</td></tr>
+    <tr><td><code>{KIT_ID}/mode/state</code></td><td>MANUAL / AUTO / TIMER</td><td>Current operating mode</td></tr>
+</table>
+
+<h3>6.4 Threshold Topics (Dashboard &rarr; ESP32)</h3>
+<table>
+    <tr><th>Topic</th><th>Payload</th><th>Description</th></tr>
+    <tr><td><code>{KIT_ID}/threshold/low</code></td><td>10</td><td>Moisture % to turn valve ON</td></tr>
+    <tr><td><code>{KIT_ID}/threshold/high</code></td><td>60</td><td>Moisture % to turn valve OFF</td></tr>
+    <tr><td><code>{KIT_ID}/threshold/temp_on</code></td><td>30</td><td>Temperature to turn fan ON</td></tr>
+    <tr><td><code>{KIT_ID}/threshold/temp_off</code></td><td>20</td><td>Temperature to turn fan OFF</td></tr>
+</table>
+
+<h3>6.5 System Topics</h3>
+<table>
+    <tr><th>Topic</th><th>Description</th></tr>
+    <tr><td><code>{KIT_ID}/log</code></td><td>System event log messages</td></tr>
+    <tr><td><code>{KIT_ID}/alert</code></td><td>Critical alert notifications</td></tr>
+    <tr><td><code>{KIT_ID}/feedback</code></td><td>Action confirmations from ESP32</td></tr>
+    <tr><td><code>{KIT_ID}/flowreset</code></td><td>Reset flow counter (dashboard sends)</td></tr>
+    <tr><td><code>{KIT_ID}/time/current</code></td><td>Current RTC time</td></tr>
+    <tr><td><code>{KIT_ID}/timers/state</code></td><td>Timer slot configuration (JSON)</td></tr>
+</table>
+
+<div class="page-break"></div>
+
+<h2>7. Web Dashboard</h2>
+
+<h3>7.1 Technology Stack</h3>
+<table>
+    <tr><th>Layer</th><th>Technology</th></tr>
+    <tr><td>Frontend Framework</td><td>React.js 18</td></tr>
+    <tr><td>Build Tool</td><td>Vite</td></tr>
+    <tr><td>Styling</td><td>CSS Modules</td></tr>
+    <tr><td>Charts</td><td>Recharts</td></tr>
+    <tr><td>Icons</td><td>Lucide React</td></tr>
+    <tr><td>MQTT Client</td><td>mqtt.js</td></tr>
+    <tr><td>Authentication</td><td>Supabase</td></tr>
+    <tr><td>Hosting</td><td>Vercel</td></tr>
+</table>
+
+<h3>7.2 Dashboard Tabs</h3>
+<table>
+    <tr><th>Tab</th><th>Features</th></tr>
+    <tr><td><strong>Monitor</strong></td><td>Live sensor cards, Valve status pill, Mode badge, Historical line chart (Temp, Moisture, Humidity)</td></tr>
+    <tr><td><strong>Control</strong></td><td>Mode switcher (MANUAL/AUTO/TIMER), Valve toggle, Flow reset, Threshold configuration</td></tr>
+    <tr><td><strong>Timers</strong></td><td>Up to 5 configurable timer slots with start time, duration, and day selection</td></tr>
+    <tr><td><strong>Log</strong></td><td>Real-time event log of system messages, alerts, and action confirmations</td></tr>
+</table>
+
+<h3>7.3 Key Components</h3>
+<table>
+    <tr><th>Component</th><th>File</th><th>Purpose</th></tr>
+    <tr><td>SensorCards</td><td>SensorCards.jsx</td><td>Displays live sensor readings</td></tr>
+    <tr><td>SensorChart</td><td>SensorChart.jsx</td><td>Recharts line chart for historical data</td></tr>
+    <tr><td>PumpControl</td><td>PumpControl.jsx</td><td>Mode switcher, valve toggle, flow reset</td></tr>
+    <tr><td>ThresholdControl</td><td>ThresholdControl.jsx</td><td>Threshold configuration</td></tr>
+    <tr><td>AdminLiveMonitor</td><td>AdminLiveMonitor.jsx</td><td>Admin panel for multi-kit monitoring</td></tr>
+    <tr><td>useMqtt</td><td>useMqtt.js</td><td>Custom hook managing all MQTT state</td></tr>
+</table>
+
+<h2>8. Power Architecture</h2>
+<div class="arch-diagram">
+    12V DC Power Adapter
+           │
+    ┌──────┴──────────────────────┐
+    │                             │
+    ▼                             ▼
+  Relay Module ────────►   LM2596 Buck Converter
+    │                       (12V → 5V output)
+    ├── Solenoid Valve            │
+    ├── Submersible Pump          ▼
+    └── Cooling Fan           ESP32 VIN pin
+                                  │
+                             Powers ESP32
+                             + all sensors
+                             + OLED display</div>
+
+<h2>9. Setup Instructions</h2>
+<h3>9.1 Hardware Assembly</h3>
+<ol>
+    <li>Wire all sensors and actuators to the ESP32 according to the pin mapping table (Section 3.1)</li>
+    <li>Connect the 12V power adapter to the relay module input</li>
+    <li>Connect the LM2596 buck converter to 12V input, tune output to 5V</li>
+    <li>Feed the 5V output to the ESP32 VIN pin</li>
+    <li>Connect the OLED display to I2C pins (SDA: GPIO 21, SCL: GPIO 22)</li>
+    <li>Ensure the flow sensor has an external 10k&Omega; pull-up resistor on GPIO 35</li>
+</ol>
+
+<h3>9.2 Firmware Upload</h3>
+<ol>
+    <li>Open <code>esp32_firmware.ino</code> in Arduino IDE</li>
+    <li>Set your WiFi credentials (<code>ssid</code>, <code>password</code>)</li>
+    <li>Set your MQTT broker credentials</li>
+    <li>Set the unique Kit ID (<code>KIT_ID</code>)</li>
+    <li>Select Board: ESP32 Dev Module with PSRAM enabled</li>
+    <li>Upload to the ESP32</li>
+</ol>
+
+<h3>9.3 Web Dashboard Deployment</h3>
+<ol>
+    <li>Clone the repository</li>
+    <li>Create a <code>.env</code> file with your MQTT and Supabase credentials</li>
+    <li>Run <code>npm install</code> and <code>npm run dev</code> for local development</li>
+    <li>Run <code>npm run build</code> and deploy <code>dist/</code> to Vercel</li>
+</ol>
+
+<h2>10. Troubleshooting</h2>
+<table>
+    <tr><th>Issue</th><th>Cause</th><th>Solution</th></tr>
+    <tr><td>Dashboard shows "Waiting for sensor data"</td><td>ESP32 not connected or wrong Kit ID</td><td>Verify WiFi, MQTT credentials, and Kit ID match</td></tr>
+    <tr><td>Valve not responding to threshold</td><td>Mode set to MANUAL</td><td>Switch to AUTO mode from Control tab</td></tr>
+    <tr><td>Pump runs continuously</td><td>Float switches wired incorrectly</td><td>Check FLOAT_LOW (GPIO 27) and FLOAT_HIGH (GPIO 14)</td></tr>
+    <tr><td>Moisture reads 0% or 100%</td><td>Sensor calibration mismatch</td><td>Recalibrate ADC range (dry=3200, wet=1200)</td></tr>
+    <tr><td>OLED display blank</td><td>I2C address mismatch</td><td>Verify SH1106 on address 0x3C</td></tr>
+    <tr><td>Dashboard shows stale data</td><td>Browser cache</td><td>Hard refresh with Ctrl+F5</td></tr>
+</table>
+
+<br/>
+<hr/>
+<p style="text-align:center; color:#777; font-size:11px;"><em>Document prepared by RevoSmart Integrated Services. For support, contact the Engineering &amp; Technical Department.</em></p>
+
+</body>
+</html>
