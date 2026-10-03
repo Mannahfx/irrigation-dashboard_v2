@@ -40,69 +40,6 @@ export default function useMqtt(kitId) {
   const [moistHistory,setMoistHistory]= useState([])
   const [humHistory,  setHumHistory]  = useState([])
 
-  // ── Snapshot Scheduler: captures data every 2 hours (8AM–6PM) ──
-  const lastSnapshotRef = useRef(null) // tracks "YYYY-MM-DD-HH" of last snapshot
-  const sensorsRef = useRef(sensors)
-  const relayRef = useRef(relayState)
-  const pumpRef = useRef(pumpState)
-  const fanRef = useRef(fanState)
-  const modeRef = useRef(mode)
-
-  // Keep refs in sync with latest state
-  useEffect(() => { sensorsRef.current = sensors }, [sensors])
-  useEffect(() => { relayRef.current = relayState }, [relayState])
-  useEffect(() => { pumpRef.current = pumpState }, [pumpState])
-  useEffect(() => { fanRef.current = fanState }, [fanState])
-  useEffect(() => { modeRef.current = mode }, [mode])
-
-  useEffect(() => {
-    if (!kitId) return
-
-    const SNAPSHOT_HOURS = [8, 10, 12, 14, 16, 18]
-
-    const interval = setInterval(async () => {
-      const now = new Date()
-      const hour = now.getHours()
-      const minute = now.getMinutes()
-
-      // Only trigger within the first 5 minutes of a snapshot hour
-      if (!SNAPSHOT_HOURS.includes(hour) || minute > 4) return
-
-      // Build a unique key for this slot to prevent duplicates
-      const slotKey = `${now.toISOString().split('T')[0]}-${hour}`
-      if (lastSnapshotRef.current === slotKey) return
-
-      // Check we actually have sensor data
-      const s = sensorsRef.current
-      if (s.temperature == null && s.humidity == null && s.moisture == null) return
-
-      lastSnapshotRef.current = slotKey
-
-      const { error } = await supabase.from('sensor_snapshots').insert({
-        kit_id: kitId,
-        recorded_at: now.toISOString(),
-        temperature: s.temperature ? parseFloat(s.temperature) : null,
-        humidity: s.humidity ? parseFloat(s.humidity) : null,
-        moisture: s.moisture ? parseFloat(s.moisture) : null,
-        tank_state: s.tank || null,
-        flow_rate: s.flowrate ? parseFloat(s.flowrate) : null,
-        total_flow: s.totalflow ? parseFloat(s.totalflow) : null,
-        valve_state: relayRef.current,
-        pump_state: pumpRef.current,
-        fan_state: fanRef.current,
-        mode: modeRef.current,
-      })
-
-      if (error) {
-        console.error('Snapshot insert error:', error)
-        lastSnapshotRef.current = null // Allow retry
-      } else {
-        console.log(`[Snapshot] ${kitId} recorded at ${now.toLocaleTimeString()}`)
-      }
-    }, 30000) // Check every 30 seconds
-
-    return () => clearInterval(interval)
-  }, [kitId])
 
   useEffect(() => {
     // If no kit is selected, don't connect yet
