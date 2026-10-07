@@ -181,6 +181,7 @@ export default function DashboardPage() {
           <ReportGenerator
             kitId={selectedKitId}
             kitName={kits.find(k => k.kit_id === selectedKitId)?.name || selectedKitId}
+            mqtt={mqtt}
           />
         )}
       </main>

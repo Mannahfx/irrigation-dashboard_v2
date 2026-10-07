@@ -63,6 +63,22 @@
   background: var(--bg-hover, #1a3d2a);
 }
 
+.captureBtn {
+  background: #1D9E75;
+  border: 1px solid #1D9E75;
+  color: white;
+}
+
+.captureBtn:hover {
+  background: #15805e;
+  border-color: #15805e;
+}
+
+.captureBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .errorBox {
   background: rgba(220, 38, 38, 0.1);
   border: 1px solid rgba(220, 38, 38, 0.3);

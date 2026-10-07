@@ -108,6 +108,7 @@ export default function AdminLiveMonitor({ kit, onBack }) {
           <ReportGenerator
             kitId={kit.kit_id}
             kitName={kit.name || kit.kit_id}
+            mqtt={mqtt}
           />
         )}
       </main>
