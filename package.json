@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.6",
+    "dotenv": "^18.0.6",
     "lucide-react": "^0.303.0",
     "mqtt": "^5.3.4",
     "puppeteer-core": "^25.8.0",
