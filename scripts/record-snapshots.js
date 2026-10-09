@@ -36,7 +36,7 @@ async function run() {
     process.exit(0)
   }
 
-  console.log(`Found ${kits.length} kits. Connecting to MQTT broker...`)
+  console.log(`Found ${kits.length} kits. Connecting to MQTT broker: ${MQTT_BROKER}`)
   
   const client = mqtt.connect(MQTT_BROKER, {
     username: MQTT_USERNAME,
@@ -51,8 +51,21 @@ async function run() {
   client.on('connect', () => {
     console.log('Connected to MQTT.')
     kits.forEach(kit => {
-      // Subscribe to all topics for this kit
-      client.subscribe(`${kit.kit_id}/#`)
+      const base = kit.kit_id
+      // Subscribe to exact topics to avoid wildcard ACL blocking
+      const topics = [
+        `${base}/sensor/temperature`,
+        `${base}/sensor/humidity`,
+        `${base}/sensor/moisture`,
+        `${base}/sensor/flowrate`,
+        `${base}/sensor/totalflow`,
+        `${base}/sensor/tank`,
+        `${base}/relay/state`,
+        `${base}/relay/pump`,
+        `${base}/relay/fan`,
+        `${base}/mode`
+      ]
+      topics.forEach(t => client.subscribe(t))
       readings.set(kit.kit_id, {})
     })
   })
