@@ -20,7 +20,7 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 
 // How long to wait for a sensor reading from a kit before giving up (ms)
-const TIMEOUT_MS = 90000 
+const TIMEOUT_MS = 300000 
 
 async function run() {
   console.log('Fetching active kits from Supabase...')
@@ -63,9 +63,12 @@ async function run() {
     
     if (!expectedKits.has(kitId)) return
 
+    const val = message.toString()
+    // Debug log to confirm we are receiving messages!
+    console.log(`Received message on ${topic}: ${val}`)
+
     const sub = parts[1]
     const subsub = parts[2]
-    const val = message.toString()
     
     const kitData = readings.get(kitId) || {}
 
