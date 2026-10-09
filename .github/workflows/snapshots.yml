@@ -4,7 +4,7 @@ on:
   schedule:
     # Runs at 8AM, 10AM, 12PM, 2PM, 4PM, 6PM UTC+1 (Nigeria time)
     # UTC times: 7, 9, 11, 13, 15, 17
-    - cron: '0 7,9,11,13,15,17 * * *'
+    - cron: '0 7,9,10,13,15,17 * * *'
   workflow_dispatch: # Allows manual testing from GitHub Actions tab
 
 jobs:
