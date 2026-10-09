@@ -6,9 +6,8 @@ const app = express()
 const PORT = process.env.PORT || 3000
 
 // A simple health check route that UptimeRobot will ping to keep the server awake
-app.get('/ping', (req, res) => {
-  res.status(200).send('Pong! Server is awake.')
-})
+app.get('/ping', (req, res) => res.status(200).send('Pong! Server is awake.'))
+app.get('/', (req, res) => res.status(200).send('Pong! Server is awake.'))
 
 // Define the exact-time schedule
 // 0 7,9,11,13,15,17 * * * UTC = 8am, 10am, 12pm, 2pm, 4pm, 6pm Nigeria Time
