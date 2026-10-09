@@ -11,8 +11,8 @@ app.get('/ping', (req, res) => {
 })
 
 // Define the exact-time schedule
-// Testing schedule: 3:30 PM UTC+1 (14:30 UTC)
-const schedule = '30 14 * * *'
+// 0 7,9,11,13,15,17 * * * UTC = 8am, 10am, 12pm, 2pm, 4pm, 6pm Nigeria Time
+const schedule = '0 7,9,11,13,15,17 * * *'
 
 console.log(`Setting up cron schedule: ${schedule}`)
 
